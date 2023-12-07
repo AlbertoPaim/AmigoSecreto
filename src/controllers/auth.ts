@@ -10,7 +10,7 @@ export const login: RequestHandler = async (req, res) => {
 
 	const body = loginSchema.safeParse(req.body);
 
-	if (!body.success) return res.json({ error: 'Dados inválidos' });
+	if (!body.success) return res.json({ error: 'Dados inválidos PORRA' });
 
 	if (!auth.validatePassword(body.data.password)) {
 		return res.status(403).json({ error: 'Acesso negado' });
@@ -18,7 +18,6 @@ export const login: RequestHandler = async (req, res) => {
 
 	return res.json({ token: auth.createToken() });
 };
-
 
 export const validate: RequestHandler = (req, res, next) => {
 
