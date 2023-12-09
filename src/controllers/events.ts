@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import * as events from '../services/events';
+import { z } from 'zod';
 
 export const getAll: RequestHandler = async (req, res) => {
 	try {
@@ -31,9 +32,27 @@ export const getEvent: RequestHandler = async (req, res) => {
 
 export const createEvent: RequestHandler = async (req, res) => {
 	try {
-		//asdasd
+		const createSchema = z.object({
+			title: z.string(),
+			description: z.string(),
+			grouped: z.boolean()
+		});
+
+		const body = createSchema.safeParse(req.body);
+
+		if (!body.success) {
+			return res.status(401).json(body.success);
+
+		}
+		const newEvent = await events.addEvent(body.data);
+
+		if (!newEvent) {
+			return res.status(401).json({ message: 'Não foi possivel criar um evento' });
+		}
+		return res.json(newEvent);
+
 	} catch (error) {
-		return res.status(500).json({ message: 'Erro inesperado do servidor' });
+		return res.status(500).json({ error });
 
 	}
 };
