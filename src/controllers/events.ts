@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import * as events from '../services/events';
 import { z } from 'zod';
 
-export const getAll: RequestHandler = async (req, res) => {
+export const getAllEvent: RequestHandler = async (req, res) => {
 	try {
 		const itens = await events.getAll();
 

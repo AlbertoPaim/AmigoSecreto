@@ -10,7 +10,6 @@ export const getAll = async () => {
 	}
 };
 
-
 export const getOne = async (id: number) => {
 	try {
 		return await prisma.event.findUnique({
@@ -47,7 +46,6 @@ export const updateEventService = async (id: number, data: EventUpdateData) => {
 		return false;
 	}
 };
-
 
 export const deleteEventService = async (id: number) => {
 	try {
