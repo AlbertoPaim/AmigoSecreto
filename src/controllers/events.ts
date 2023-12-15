@@ -49,10 +49,58 @@ export const createEvent: RequestHandler = async (req, res) => {
 		if (!newEvent) {
 			return res.status(401).json({ message: 'Não foi possivel criar um evento' });
 		}
-		return res.json(newEvent);
+		return res.status(201).json(newEvent);
 
 	} catch (error) {
 		return res.status(500).json({ error });
 
 	}
+};
+
+export const updateEvent: RequestHandler = async (req, res) => {
+	const { id } = req.params;
+	try {
+		const updateEventSchema = z.object({
+			status: z.boolean().optional(),
+			title: z.string().optional(),
+			description: z.string().optional(),
+			grouped: z.boolean().optional()
+		});
+
+		const body = updateEventSchema.safeParse(req.body);
+		if (!body.success) {
+			return res.json({ error: 'Dados inválidos' });
+		}
+
+		const eventUpdated = await events.updateEventService(Number(id), body.data);
+
+		if (!eventUpdated) {
+			return res.json({ error: 'Não foi possivel atualizar' });
+		}
+		return res.status(200).json(eventUpdated);
+
+	} catch (error) {
+
+		return res.status(500).json({ error });
+
+	}
+
+};
+
+export const deleteEvent: RequestHandler = async (req, res) => {
+	const { id } = req.params;
+	try {
+		const deletedEvent = await events.deleteEventService(Number(id));
+
+		if (!deletedEvent) {
+			return res.status(400).json({ message: 'Não foi possivel deletar o evento' }
+			);
+		}
+
+		return res.status(204).json({ deleteEvent });
+	} catch (error) {
+		return res.status(500).json({ error });
+
+	}
+
 };
