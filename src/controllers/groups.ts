@@ -18,7 +18,7 @@ export const getAllGroups: RequestHandler = async (req, res) => {
 };
 
 export const getGroup: RequestHandler = async (req, res) => {
-	const { id_event, id } = req.params;
+	const { id, id_event } = req.params;
 
 	try {
 		const foundGroup = await groups.getGroupService({
@@ -37,3 +37,4 @@ export const getGroup: RequestHandler = async (req, res) => {
 
 	}
 };
+

@@ -19,5 +19,6 @@ router.delete('/events/:id', deleteEvent);
 
 router.get('/events/:id_event/groups', getAllGroups);
 router.get('/event/:id_event/groups/:id', getGroup);
+
 export default router;
 
