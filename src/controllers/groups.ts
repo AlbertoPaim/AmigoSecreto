@@ -64,4 +64,3 @@ export const creategroup: RequestHandler = async (req, res) => {
 	}
 };
 
-const data = 'data asdasd asdas';
