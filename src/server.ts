@@ -31,8 +31,3 @@ if (process.env.NODE_ENV === 'production') {
 	const serverPort: number = process.env.PORT ? parseInt(process.env.PORT) : 9000;
 	runSever(serverPort, regularServer);
 }
-
-
-
-
-

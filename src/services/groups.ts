@@ -43,3 +43,23 @@ export const createGroupeService = async (data: groupCreateData) => {
 		return false;
 	}
 };
+
+type groupUpdateData = Prisma.Args<typeof prisma.eventGroup, 'update'>['data']
+type updateFilters = {id: number; id_event?: number;  }
+
+export const updateGroupService = async (filters: updateFilters , data: groupUpdateData) =>{
+	try {
+		return await prisma.eventGroup.update({where: filters, data});
+	} catch (error) {
+		return false;
+	}
+};
+
+type deleteFilters = {id_event: number; id: number;}
+export const deleteGroupService =  async (filters: deleteFilters) =>{
+	try {
+		return await prisma.eventGroup.delete({where: filters});
+	} catch (error) {
+		return false;
+	}
+};
