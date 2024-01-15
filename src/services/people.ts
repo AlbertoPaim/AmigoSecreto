@@ -38,6 +38,7 @@ export const createPeopleService = async (data: PeopleCreateData) => {
 		return false;
 	}
 };
+
 type DataUpdate = Prisma.Args<typeof prisma.eventPeople, 'update'>['data']
 type FiltersUpdate = { id?: number, id_event: number, id_group: number, }
 export const updatePeopleService = async (filters: FiltersUpdate, data: DataUpdate) => {
@@ -48,3 +49,11 @@ export const updatePeopleService = async (filters: FiltersUpdate, data: DataUpda
 	}
 };
 
+type DeletePeopleFilters = { id: number, id_group: number, id_event: number }
+export const deletePeopleService = async (filters: DeletePeopleFilters) => {
+	try {
+		return await prisma.eventPeople.delete({ where: filters });
+	} catch (error) {
+		return false;
+	}
+};

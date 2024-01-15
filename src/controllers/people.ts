@@ -91,3 +91,22 @@ export const updatePeople: RequestHandler = async (req, res) => {
 		return res.status(500).json({ message: 'Erro interno do servidor' });
 	}
 };
+
+export const deletePeople: RequestHandler = async (req, res) => {
+	const { id, id_event, id_group } = req.params;
+	try {
+		const deletedPeople = await people.deletePeopleService({
+			id: Number(id),
+			id_event: Number(id_event),
+			id_group: Number(id_group)
+		});
+
+		if (!deletedPeople) {
+			return res.status(400).json({ message: 'Não foi possivel deletar' });
+		}
+
+		return res.status(204).json({ message: 'Deletado' });
+	} catch (error) {
+		return res.status(500).json({ message: 'Erro interno do servidor' });
+	}
+};
