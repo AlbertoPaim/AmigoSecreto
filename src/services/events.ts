@@ -54,3 +54,7 @@ export const deleteEventService = async (id: number) => {
 		return false;
 	}
 };
+
+export const doMatches = async (id: number): Promise<boolean> => {
+	return true;
+};

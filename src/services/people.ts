@@ -40,7 +40,7 @@ export const createPeopleService = async (data: PeopleCreateData) => {
 };
 
 type DataUpdate = Prisma.Args<typeof prisma.eventPeople, 'update'>['data']
-type FiltersUpdate = { id?: number, id_event: number, id_group: number, }
+type FiltersUpdate = { id?: number, id_event: number, id_group?: number, }
 export const updatePeopleService = async (filters: FiltersUpdate, data: DataUpdate) => {
 	try {
 		return await prisma.eventPeople.updateMany({ where: filters, data });

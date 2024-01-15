@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import * as events from '../services/events';
 import { z } from 'zod';
+import { updatePeopleService } from '../services/people';
 
 export const getAllEvent: RequestHandler = async (req, res) => {
 	try {
@@ -74,11 +75,15 @@ export const updateEvent: RequestHandler = async (req, res) => {
 
 		const eventUpdated = await events.updateEventService(Number(id), body.data);
 
-		if (!eventUpdated) {
-			return res.json({ error: 'Não foi possivel atualizar' });
+		if (eventUpdated) {
+			if (eventUpdated.status) {
+				//asdasd
+			} else {
+				await updatePeopleService({ id_event: Number(id) }, { matched: '' });
+			}
+			return res.status(200).json(eventUpdated);
 		}
-		return res.status(200).json(eventUpdated);
-
+		return res.status(400).json({ message: 'Não foi possivel atualizar o evento' });
 	} catch (error) {
 
 		return res.status(500).json({ error });
