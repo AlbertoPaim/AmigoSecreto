@@ -77,9 +77,12 @@ export const updateEvent: RequestHandler = async (req, res) => {
 
 		if (eventUpdated) {
 			if (eventUpdated.status) {
-				//asdasd
+				const result = await events.doMatches(parseInt(id));
+				if (!result) {
+					return res.status(400).json({ message: 'Não foi possivel fazer o evento' });
+				}
 			} else {
-				await updatePeopleService({ id_event: Number(id) }, { matched: '' });
+				await updatePeopleService({ id_event: Number(id) }, { matched: 'oi' });
 			}
 			return res.status(200).json(eventUpdated);
 		}
