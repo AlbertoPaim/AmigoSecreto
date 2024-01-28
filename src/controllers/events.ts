@@ -82,7 +82,7 @@ export const updateEvent: RequestHandler = async (req, res) => {
 					return res.status(400).json({ message: 'Não foi possivel fazer o evento' });
 				}
 			} else {
-				await updatePeopleService({ id_event: Number(id) }, { matched: 'oi' });
+				await updatePeopleService({ id_event: Number(id) }, { matched: '' });
 			}
 			return res.status(200).json(eventUpdated);
 		}

@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import * as people from '../services/people';
 import { z } from 'zod';
+import { decryptMatch } from '../utils/match';
 
 export const getAllPeople: RequestHandler = async (req, res) => {
 	const { id_event, id_group } = req.params;
@@ -109,4 +110,47 @@ export const deletePeople: RequestHandler = async (req, res) => {
 	} catch (error) {
 		return res.status(500).json({ message: 'Erro interno do servidor' });
 	}
+};
+
+export const searchPeople: RequestHandler = async (req, res) => {
+	const { id_event } = req.params;
+
+	const searchPeopleSchema = z.object({
+		cpf: z.string().transform(val => val.replace(/\.|-/gm, ''))
+	});
+
+	const query = searchPeopleSchema.safeParse(req.query);
+
+	if (!query.success) {
+		return res.status(400).json({ message: 'Não foi possivel achar a pessoa 1' });
+	}
+
+	const personData = await people.getOndePeopleServices({
+		id_event: Number(id_event),
+		cpf: query.data.cpf
+	});
+
+	if (personData && personData.matched) {
+		const matchedId = decryptMatch(personData.matched);
+
+		const personMatched = await people.getOndePeopleServices({
+			id_event: Number(id_event),
+			id: matchedId
+		});
+
+		if (personMatched) {
+			return res.json({
+				person: {
+					id: personData.id,
+					name: personData.name
+				},
+				personMatched: {
+					id: personMatched.id,
+					name: personMatched.name
+				}
+			});
+		}
+	}
+
+	return res.status(400).json({ message: 'Não foi possivel achar a pessoa' });
 };
