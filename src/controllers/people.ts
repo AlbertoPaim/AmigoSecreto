@@ -122,7 +122,7 @@ export const searchPeople: RequestHandler = async (req, res) => {
 	const query = searchPeopleSchema.safeParse(req.query);
 
 	if (!query.success) {
-		return res.status(400).json({ message: 'Não foi possivel achar a pessoa 1' });
+		return res.status(400).json({ message: 'Não foi possivel achar a pessoa' });
 	}
 
 	const personData = await people.getOndePeopleServices({
